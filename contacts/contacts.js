@@ -12,7 +12,7 @@ angular.module('myApp.contacts', []).controller('ContactsController', function (
 }).factory('Contact', function () {
     // This is a factory function that will return a service (singleton object)
 
-    var contacts = []; // a private container to store the contacts array
+    var contacts = JSON.parse(localStorage.getItem('contacts')) || {}; // a private container to store the contacts array
     function uuid() {
         // a v4 compliant way of generating a uuid
         // refer: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
@@ -23,13 +23,21 @@ angular.module('myApp.contacts', []).controller('ContactsController', function (
     }
     return  {
         save: function (contact) {
-            contact._id = uuid();
-            contacts.push(contact);
+            var id = uuid();
+            contact._id = id;
+            contacts[id] = contact;
+
+            localStorage.setItem('contacts', JSON.stringify(contacts));
         },
         getAll: function () {
-            return contacts;
+            var _contacts = [];
+            for (var prop in contacts) {
+                _contacts.push(contacts[prop]);
+            }
+            return _contacts;
+        },
+        get: function (id) {
+            return contacts[id];
         }
     }
-}).controller('MailController', function () {
-
 });

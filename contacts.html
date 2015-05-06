@@ -6,16 +6,17 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="contacts/contacts.js"></script>
+    <script src="mails/mails.js"></script>
     <script>
 
-        var myApp = angular.module('myApp', ['ngRoute', 'myApp.contacts']);
+        var myApp = angular.module('myApp', ['ngRoute', 'myApp.contacts', 'myApp.mails']);
 
         myApp.config(function ($routeProvider) {
             $routeProvider.when('/contacts', {
-                templateUrl: 'partials/_contact.html',
+                templateUrl: 'contacts/_contact.html',
                 controller: 'ContactsController'
-            }).when('/contacts/mail', {
-                templateUrl: 'partials/_mail.html',
+            }).when('/contacts/:id', {
+                templateUrl: 'mails/_mail.html',
                 controller: 'MailController'
             }).otherwise({
                 redirectTo: '/contacts'
@@ -25,7 +26,6 @@
     </script>
 </head>
 <body>
-    <a href="#/mails">Mails</a>
     <div ng-view></div>
 </body>
 </html>
