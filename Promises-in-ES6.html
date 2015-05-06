@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+
+        var promise = new Promise(function (resolve, reject) {
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'someurl');
+            xhr.send();
+
+            xhr.addEventListener('readystatechange', function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        resolve(JSON.parse(xhr.responseText));
+                    } else {
+                        reject();
+                    }
+                }
+            });
+        });
+
+
+
+
+        promise.then(function (obj) {
+            console.log(obj);
+        }, function () {});
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
