@@ -5,26 +5,25 @@
     <title></title>
     <script src="bower_components/angular/angular.js"></script>
     <script>
-        angular.module('myApp', []).controller('MyController', function ($scope, Github) {
+        angular.module('myApp', []).controller('MyController', function ($scope) {
             $scope.message = 'Hello';
-            Github.search('nodejs').then(function (obj) {
-                console.log(obj);
-            }, function () {
-                console.log('There was an error');
-            });
-        }).factory('Github', function ($http, $q) {
-            return {
-                search: function (term) {
-                    return $q(function (resolve, reject) {
-                        $http.get('https://api.github.com/search/repositories?q=' + term).success(function (data) {
-                            data.id = 'asdfasd-a452as4df53as1df';
-                            resolve(data.items);
-                        }).error(function () {
-                            reject();
-                        });
-                    });
+        }).factory('Contact', function () {
+            // This is a factory function that will return a service (singleton object)
+
+            var contacts = []; // a private container to store the contacts array
+            function uuid() {
+                // a v4 compliant way of generating a uuid
+                // refer: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+                    return v.toString(16);
+                });
+            }
+            return  {
+                save: function (contact) {
+                    contacts.push(contact);
                 }
-            };
+            }
         });
     </script>
 </head>
@@ -34,3 +33,4 @@
     </div>
 </body>
 </html>
+
