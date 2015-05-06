@@ -4,8 +4,25 @@
     <meta charset="UTF-8">
     <title></title>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script>
-        angular.module('myApp', []).controller('MyController', function ($scope, Contact) {
+        var myApp = angular.module('myApp', ['ngRoute']);
+
+        myApp.config(function ($routeProvider) {
+            $routeProvider.when('/contacts', {
+                templateUrl: 'partials/_contact.html',
+                controller: 'ContactsController'
+            }).when('/contacts/mail', {
+                templateUrl: 'partials/_mail.html',
+                controller: 'MailController'
+            }).otherwise({
+                redirectTo: '/contacts'
+            });
+        });
+
+
+
+        myApp.controller('ContactsController', function ($scope, Contact) {
             $scope.message = 'Hello';
 
             $scope.contact = {};
@@ -15,12 +32,7 @@
             };
             $scope.printList = function () {
                 $scope.contacts = Contact.getAll();
-                console.log($scope.contacts);
             };
-
-
-
-
         }).factory('Contact', function () {
             // This is a factory function that will return a service (singleton object)
 
@@ -37,34 +49,19 @@
                 save: function (contact) {
                     contact._id = uuid();
                     contacts.push(contact);
-                    console.log(contacts);
                 },
                 getAll: function () {
                     return contacts;
                 }
             }
+        }).controller('MailController', function () {
+
         });
     </script>
 </head>
-<body  ng-controller="MyController">
-    <section>
-        <h1>Create A Contact</h1>
-        <div>
-            <input type="text" ng-model="contact.name"/>
-            <input type="email" ng-model="contact.email"/>
-            <input type="tel" ng-model="contact.tel"/>
-            <button ng-click="saveContact()">Save Contact</button>
-        </div>
-    </section>
-
-    <section>
-        <h1>List All Contacts</h1>
-        <button ng-click="printList()">List</button>
-        <ul>
-            <li ng-repeat="c in contacts">{{c.name}} | {{c.email}} | {{c.tel}}</li>
-        </ul>
-
-    </section>
+<body>
+    <a href="#/mails">Mails</a>
+    <div ng-view></div>
 </body>
 </html>
 

@@ -1,0 +1,20 @@
+<div>
+    <section>
+        <h1>Create A Contact</h1>
+        <div>
+            <input type="text" ng-model="contact.name"/>
+            <input type="email" ng-model="contact.email"/>
+            <input type="tel" ng-model="contact.tel"/>
+            <button ng-click="saveContact()">Save Contact</button>
+        </div>
+    </section>
+
+    <section>
+        <h1>List All Contacts</h1>
+        <button ng-click="printList()">List</button>
+        <ul>
+            <li ng-repeat="c in contacts">{{c.name}} | {{c.email}} | {{c.tel}}</li>
+        </ul>
+
+    </section>
+</div>
