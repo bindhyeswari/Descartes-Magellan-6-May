@@ -5,8 +5,10 @@
     <title></title>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="contacts/contacts.js"></script>
     <script>
-        var myApp = angular.module('myApp', ['ngRoute']);
+
+        var myApp = angular.module('myApp', ['ngRoute', 'myApp.contacts']);
 
         myApp.config(function ($routeProvider) {
             $routeProvider.when('/contacts', {
@@ -20,43 +22,6 @@
             });
         });
 
-
-
-        myApp.controller('ContactsController', function ($scope, Contact) {
-            $scope.message = 'Hello';
-
-            $scope.contact = {};
-            $scope.saveContact = function () {
-                Contact.save($scope.contact);
-                $scope.contact = {};
-            };
-            $scope.printList = function () {
-                $scope.contacts = Contact.getAll();
-            };
-        }).factory('Contact', function () {
-            // This is a factory function that will return a service (singleton object)
-
-            var contacts = []; // a private container to store the contacts array
-            function uuid() {
-                // a v4 compliant way of generating a uuid
-                // refer: http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-                    return v.toString(16);
-                });
-            }
-            return  {
-                save: function (contact) {
-                    contact._id = uuid();
-                    contacts.push(contact);
-                },
-                getAll: function () {
-                    return contacts;
-                }
-            }
-        }).controller('MailController', function () {
-
-        });
     </script>
 </head>
 <body>
