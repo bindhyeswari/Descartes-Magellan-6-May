@@ -5,7 +5,7 @@
     <title></title>
     <script src="bower_components/angular/angular.js"></script>
     <script>
-        angular.module('myApp', []).controller('MyController', function ($scope) {
+        angular.module('myApp', []).controller('MyController', function ($scope, Contact) {
             $scope.message = 'Hello';
         }).factory('Contact', function () {
             // This is a factory function that will return a service (singleton object)
@@ -21,16 +21,30 @@
             }
             return  {
                 save: function (contact) {
+                    contact._id = uuid();
                     contacts.push(contact);
+                    console.log(contacts);
                 }
             }
         });
     </script>
 </head>
 <body>
-    <div ng-controller="MyController">
-        {{message}}
-    </div>
+    <section>
+        <h1>Create A Contact</h1>
+        <div ng-controller="MyController">
+            <input type="text" ng-model="contact.name"/>
+            <input type="email" ng-model="contact.email"/>
+            <input type="tel" ng-model="contact.phone"/>
+            <button ng-click="saveContact()">Save Contact</button>
+        </div>
+    </section>
+
+    <section>
+        <h1>List All Contacts</h1>
+        <button ng-click="printList()">List</button>
+
+    </section>
 </body>
 </html>
 
